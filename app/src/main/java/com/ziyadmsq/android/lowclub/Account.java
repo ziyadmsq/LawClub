@@ -3,12 +3,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Account {
-    public String getFirebaseID() {
-        return firebaseID;
-    }
-
     private String firebaseID;
-
     private boolean permit;
     private String position;
     private String accType;//
@@ -134,4 +129,8 @@ public class Account {
     public void setMyJoin(Map<String,Object> myJoin) {
         this.myJoin = myJoin;
     }
+    public String getFirebaseID() {
+        return firebaseID;
+    }
+
 }
