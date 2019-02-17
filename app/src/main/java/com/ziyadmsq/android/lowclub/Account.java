@@ -14,7 +14,6 @@ public class Account {
     private String accType;//
     private String name;//
     private int numOfHours;
-//    private double gpa;
     private String phone;
     private int ksuId;
     private String pass;//
