@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/events"
+            android:icon="@drawable/ic_local_activity"
+            android:title="فعليات" />
+        <!--<item-->
+            <!--android:id="@+id/articles"-->
+            <!--android:icon="@drawable/ic_attach_file"-->
+            <!--android:title="منشورات" />-->
+        <!--<item-->
+            <!--android:id="@+id/both"-->
+            <!--android:icon="@drawable/ic_filter_list"-->
+            <!--android:title="جميع اللائحة" />-->
+        <item
+            android:id="@+id/web"
+            android:icon="@drawable/ic_web_asset"
+            android:title="صفحتنا" />
+    </group>
+
+    <item android:title="للتواصل">
+        <menu>
+            <item
+                android:id="@+id/email"
+                android:icon="@drawable/ic_email"
+                android:title="email@LawClub.com" />
+            <item
+                android:id="@+id/phone"
+                android:icon="@drawable/ic_perm_phone_msg"
+                android:title="واتس رئيس النادي" />
+            <!--<item-->
+                <!--android:title="" />-->
+            <!--<item-->
+                <!--android:title=""/>-->
+            <!--<item-->
+                <!--android:id="@+id/ftc_web"-->
+                <!--android:title="Power by FTC© " />-->
+        </menu>
+    </item>
+
+</menu>

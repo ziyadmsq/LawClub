@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MyJoinedEventsFragment">
+
+
+    <!-- TODO: Update blank fragment layout -->
+    <!-- TODO : i have changed a lot of shit here so don't
+         TODO :feel confident if error occur -->
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_marginTop="12dp"
+        android:layout_margin="0dp"
+        android:background="#f7f8f9">
+
+        <ListView
+            android:id="@+id/fragment_eventListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stackFromBottom="true"
+            android:divider="@android:color/transparent"
+            android:transcriptMode="alwaysScroll"
+            tools:listitem="@layout/fragment_event"/>
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>
