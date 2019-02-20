@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity
     private String username;
     private Context context = this;
     public static Account account;
-    public static String EVENT_TREE = "Events";
-    public static String ACCOUNT_TREE = "Accounts";
+    public static String EVENT_TREE = "AndroidEvents";
+    public static String ACCOUNT_TREE = "users";
 
 
     @Override

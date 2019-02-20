@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private ProgressBar progressBar;
     private Context context = this;
-    private Button btnSignup, btnLogin, btnReset;
+    private Button btnLogin, btnReset;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mMessagesDatabaseReference;
     private FirebaseAuth mAuth;
@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
 
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
-        inputName = (EditText) findViewById(R.id.name);
+//        inputName = (EditText) findViewById(R.id.name);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 //        btnSignup = (Button) findViewById(R.id.btn_signup);
         btnLogin = (Button) findViewById(R.id.btn_login);
@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final String email = inputEmail.getText().toString();
                 final String password = inputPassword.getText().toString();
-                final String name = inputName.getText().toString();
+//                final String name = inputName.getText().toString();
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
@@ -147,14 +147,23 @@ public class LoginActivity extends AppCompatActivity {
                                                 if (dataSnapshot1.getValue(Account.class) != null && auth.getCurrentUser().getUid() != null) {
                                                     if (dataSnapshot1.getValue(Account.class).getFirebaseID().equals(auth.getCurrentUser().getUid())) {
                                                         MainActivity.account = dataSnapshot1.getValue(Account.class);
-                                                        MainActivity.account.setName(name);
-                                                        mFirebaseDatabase.getReference().child(MainActivity.ACCOUNT_TREE).child(auth.getCurrentUser().getUid()).child("name").setValue(name);
+//                                                        MainActivity.account.setName(name);
+//                                                        mFirebaseDatabase.getReference().child(MainActivity.ACCOUNT_TREE).child(auth.getCurrentUser().getUid()).child("name").setValue(name);
 //                                                        mFirebaseDatabase.setPersistenceEnabled(true);
                                                         Log.e(".onDataChange","");
                                                         break;
                                                     }
                                                 }
                                             }
+                                            if (MainActivity.account == null) {
+                                                Log.e(".account == null","");
+                                                FirebaseUser currentUser = auth.getCurrentUser();
+                                                Account account = new Account(currentUser.getUid(), true, "$", "user", "", 0, "", Integer.parseInt(email), password, null, null);
+                                                mFirebaseDatabase.getReference().child(MainActivity.ACCOUNT_TREE).child(currentUser.getUid()).setValue(account.toMap());
+                                            }
+                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                            finish();
 
                                         }
                                         @Override
@@ -163,15 +172,15 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                     });
 
-                                    if (MainActivity.account == null) {
-                                        Log.e(".account == null","");
-                                        FirebaseUser currentUser = auth.getCurrentUser();
-                                        Account account = new Account(currentUser.getUid(), true, "$", "user", name, 0, "", Integer.parseInt(email), password, null, null);
-                                        mFirebaseDatabase.getReference().child(MainActivity.ACCOUNT_TREE).child(currentUser.getUid()).setValue(account.toMap());
-                                    }
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
+//                                    if (MainActivity.account == null) {
+//                                        Log.e(".account == null","");
+//                                        FirebaseUser currentUser = auth.getCurrentUser();
+//                                        Account account = new Account(currentUser.getUid(), true, "$", "user", "", 0, "", Integer.parseInt(email), password, null, null);
+//                                        mFirebaseDatabase.getReference().child(MainActivity.ACCOUNT_TREE).child(currentUser.getUid()).setValue(account.toMap());
+//                                    }
+//                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                                    startActivity(intent);
+//                                    finish();
                                 }
                             }
                         });

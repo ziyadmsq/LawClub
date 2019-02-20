@@ -15,7 +15,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new EventFragment();
             case 1:
-                return new DevelopingPage();
+                return new ProfileEdit();
 //            case 2: return new Tab3();
         }
         return null;
