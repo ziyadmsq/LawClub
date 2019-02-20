@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -128,18 +129,6 @@ public class MainActivity extends AppCompatActivity
 //                    startActivityForResult(intent,RC_SIGN_IN);
                     startActivity(intent);
                     finish();
-//
-//                    Toast.makeText(MainActivity.this, "not signed in ", Toast.LENGTH_LONG).show();
-//                    startActivityForResult(
-//                            AuthUI.getInstance()
-//                                    .createSignInIntentBuilder()
-//                                    .setAvailableProviders(Arrays.asList(
-////                                            new AuthUI.IdpConfig.GoogleBuilder().build(),
-//                                            new AuthUI.IdpConfig.EmailBuilder().build()))
-//                                    .setLogo(R.mipmap.ic_launcher_round)
-//                                    .setTheme(R.style.AppTheme)
-//                                    .build(),
-//                            RC_SIGN_IN);
                 }
 
             }
@@ -216,7 +205,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Log.e("mainActivity", "profileHolder.setOnClickListener");
-                Toast.makeText(MainActivity.this, "clicked", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, AccountPage.class);
                 startActivity(intent);
                 drawer.closeDrawer(GravityCompat.START);
