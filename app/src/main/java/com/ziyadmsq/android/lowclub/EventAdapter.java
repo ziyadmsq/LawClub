@@ -2,8 +2,11 @@ package com.ziyadmsq.android.lowclub;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -36,12 +39,10 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.e("EventAdapter", "getView");
         if (convertView == null) {
             convertView = ((Activity) getContext()).getLayoutInflater().inflate(R.layout.item_event,
                     parent,/*TODO i think you should try to make it true*/ false);
         }
-
         Log.e("EventAdapter", "getItem(position");
         final Event event = getItem(position);
         final FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
@@ -58,6 +59,28 @@ public class EventAdapter extends ArrayAdapter<Event> {
         final Button attButton = convertView.findViewById(R.id.attendButton);
         TextView timeTextView = convertView.findViewById(R.id.timeTextView);
         TextView dateTextView = convertView.findViewById(R.id.calenderTextView);
+
+        if(!event.isOpen()){
+            joinButton.setEnabled(false);
+            attButton.setEnabled(false);
+        }else{
+            if (!event.isNeedVolunteer() /*&& (event.getVols() != null && event.getVols().containsKey(MainActivity.account.getFirebaseID()))*/) {
+                joinButton.setEnabled(false);
+            }
+            if (!event.isNeedAttendence() /*&& event.getAtts() != null && event.getAtts().containsKey(MainActivity.account.getFirebaseID())*/) {
+                attButton.setEnabled(false);
+            }
+        }
+
+//        if( event.getVols()!=null && event.getVols().containsKey(MainActivity.account.getFirebaseID()) ){
+//            Log.e("yess","yesssssss1");
+//            joinButton.setEnabled(false);
+//        }
+//        if( event.getAtts()!=null && event.getAtts().containsKey(MainActivity.account.getFirebaseID())){
+//            Log.e("yess","yesssssss2");
+//            attButton.setEnabled(false);
+//        }
+
 
 //        if (!event.isOpen()) {
 //            Log.e("!event.isOpen()",event.getID());
@@ -76,7 +99,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
         joinButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 //TODO : add him to the vol list in the firebase
                 Log.e("joinButton", "clickable");
                 mMessagesDatabaseReference.child(MainActivity.EVENT_TREE);
@@ -103,11 +126,20 @@ public class EventAdapter extends ArrayAdapter<Event> {
                             Map<String, Object> map = new HashMap<>();
                             map.put(event.getID(), false);
                             MainActivity.account.setMyJoin(map);
-                        } else{
+                        } else {
                             MainActivity.account.getMyJoin().put(event.getID(), false);
                         }
                         mMessagesDatabaseReference.child(MainActivity.ACCOUNT_TREE).child(mFirebaseAuth.getCurrentUser().getUid()).child("myJoin").setValue(MainActivity.account.getMyJoin());
-                        Toast.makeText(getContext(), "SuccessListener", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getContext(), "SuccessListener", Toast.LENGTH_LONG).show();
+                        Snackbar mSnackbar = Snackbar.make(view, "تم تسجيلك في قائمة المنظمين \uD83C\uDF88\uD83D\uDC4C\uD83C\uDFFB", Snackbar.LENGTH_LONG);
+                        View mView = mSnackbar.getView();
+                        TextView mTextView = (TextView) mView.findViewById(android.support.design.R.id.snackbar_text);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                            mTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                        } else {
+                            mTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+                        }
+                        mSnackbar.show();
                         joinButton.setEnabled(false);
                     }
                 });
@@ -116,7 +148,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         });
         attButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
                 FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
                 DatabaseReference mMessagesDatabaseReference;
@@ -139,8 +171,17 @@ public class EventAdapter extends ArrayAdapter<Event> {
                     public void onSuccess(Void aVoid) {
 
                         attButton.setEnabled(false);
-                        Toast.makeText(getContext(), "SuccessListener", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getContext(), "SuccessListener", Toast.LENGTH_LONG).show();
 
+                        Snackbar mSnackbar = Snackbar.make(view, "حياك الله", Snackbar.LENGTH_LONG);
+                        View mView = mSnackbar.getView();
+                        TextView mTextView = (TextView) mView.findViewById(android.support.design.R.id.snackbar_text);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                            mTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                        } else {
+                            mTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+                        }
+                        mSnackbar.show();
                     }
                 });
             }
@@ -159,7 +200,6 @@ public class EventAdapter extends ArrayAdapter<Event> {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    Log.e("ValueEventListener", "down ");
                     Log.e(dataSnapshot1.getValue(Account.class).getFirebaseID(), "==" + event.getOnnerID());
                     if (dataSnapshot1.getValue(Account.class).getFirebaseID().equals(event.getOnnerID())) {
                         username = dataSnapshot1.getValue(Account.class).getName();
