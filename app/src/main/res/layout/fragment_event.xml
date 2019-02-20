@@ -61,7 +61,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="زياد القحاني"
+                        android:text="جني"
                         android:textAlignment="viewEnd" />
 
                     <TextView
@@ -84,7 +84,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="زياد القحاني"
+                        android:text="لا حجت البقرة على قرونها"
                         android:textAlignment="viewEnd" />
 
                     <TextView
