@@ -15,10 +15,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
-//private ChildEventListener mChildEventListener;
 
-
-public class EventFragment extends android.support.v4.app.Fragment {
+public class EventFragment extends android.support.v4.app.Fragment{
 
     //me!
     private MyEventRecyclerViewAdapter myEventRecyclerViewAdapter;
@@ -108,7 +106,7 @@ public class EventFragment extends android.support.v4.app.Fragment {
 //        }else{
 //            emptyCell.setVisibility(View.VISIBLE);
 //        }
-        myEventRecyclerViewAdapter = new MyEventRecyclerViewAdapter(eventList/*MainActivity.mEventListView*/, getContext());
+        myEventRecyclerViewAdapter = new MyEventRecyclerViewAdapter(eventList/*MainActivity.mEventListView*/,getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(myEventRecyclerViewAdapter);
 
