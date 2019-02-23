@@ -479,5 +479,4 @@ public class MainActivity extends AppCompatActivity
         return app_installed;
     }
 
-
 }
