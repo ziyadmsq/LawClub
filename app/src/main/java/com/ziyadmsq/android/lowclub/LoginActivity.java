@@ -158,8 +158,9 @@ public class LoginActivity extends AppCompatActivity {
                                             if (MainActivity.account == null) {
                                                 Log.e(".account == null","");
                                                 FirebaseUser currentUser = auth.getCurrentUser();
-                                                Account account = new Account(currentUser.getUid(), true, "$", "user", "", 0, "", Integer.parseInt(email), password, null, null);
-                                                mFirebaseDatabase.getReference().child(MainActivity.ACCOUNT_TREE).child(currentUser.getUid()).setValue(account.toMap());
+                                                MainActivity.account = new Account(currentUser.getUid(), true, "$", "user", "", 0, "", Integer.parseInt(email), password, null, null);
+//                                                MainActivity.account = account;
+                                                mFirebaseDatabase.getReference().child(MainActivity.ACCOUNT_TREE).child(currentUser.getUid()).setValue(MainActivity.account.toMap());
                                             }
                                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                             startActivity(intent);

@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
             Log.e("MainActivity", "no currentUser");
         }
-        final Context context = this;
         Log.e("onCreate()", "above mAuthStateListener");
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -94,17 +93,20 @@ public class MainActivity extends AppCompatActivity
                     // User is signed in
                     onSignedInInitialize(user.getDisplayName());
 
-                    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-                    navigationView.setNavigationItemSelectedListener(contextNavigationView);
-
-                    View headerView = navigationView.getHeaderView(0);
-                    LinearLayout profileHolder = headerView.findViewById(R.id.profile_holder);
-                    TextView navName = profileHolder.findViewById(R.id.nav_username);
-                    TextView navEmail = profileHolder.findViewById(R.id.nav_email);
-                    if (account != null) {
-                        navName.setText(account.getName());
-                        navEmail.setText(account.getKsuId() + "@student.ksu.edu.sa");
-                    }
+//                    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//                    navigationView.setNavigationItemSelectedListener(contextNavigationView);
+//
+//                    View headerView = navigationView.getHeaderView(0);
+//                    LinearLayout profileHolder = headerView.findViewById(R.id.profile_holder);
+//                    TextView navName = profileHolder.findViewById(R.id.nav_username);
+//                    TextView navEmail = profileHolder.findViewById(R.id.nav_email);
+////                    Log.e("account.getKsuId()",account.getKsuId()+" <<1 ");
+//                    if (account != null) {
+//                        navName.setText(account.getName());
+//                        Log.e("account.getKsuId()",account.getKsuId()+" << ");
+//                        Log.e("account.getKsuId()",account.getPassWord()+" << ");
+//                        navEmail.setText(account.getKsuId() + "@student.ksu.edu.sa");
+//                    }
 
 //                    Toast.makeText(context,user.getDisplayName(),Toast.LENGTH_LONG).show();
 
@@ -140,12 +142,15 @@ public class MainActivity extends AppCompatActivity
         mMessagesDatabaseReference.getParent().child(ACCOUNT_TREE).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.e("account.getUid()", mFirebaseAuth.getCurrentUser().getUid()+ " << ");
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
 //                    Log.e("AccountPage", "down ");
 //                    Log.e(dataSnapshot1.getValue(Account.class).getFirebaseID(), " == " + mFirebaseAuth.getCurrentUser().getUid());
                     if (dataSnapshot1.getValue(Account.class) != null && dataSnapshot1.getValue(Account.class).getFirebaseID() != null && mFirebaseAuth.getCurrentUser().getUid() != null) {
+                        Log.e("getFirebaseID()", dataSnapshot1.getValue(Account.class).getFirebaseID() + " << ");
                         if (dataSnapshot1.getValue(Account.class).getFirebaseID().equals(mFirebaseAuth.getCurrentUser().getUid())) {
                             account = dataSnapshot1.getValue(Account.class);
+                            Log.e("account.getKsuId()", account.getKsuId() + " << ");
                             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
                             navigationView.setNavigationItemSelectedListener(contextNavigationView);
 
@@ -154,6 +159,8 @@ public class MainActivity extends AppCompatActivity
                             TextView navName = profileHolder.findViewById(R.id.nav_username);
                             TextView navEmail = profileHolder.findViewById(R.id.nav_email);
                             if (account != null) {
+                                Log.e("account.getKsuId()", account.getKsuId() + " << ");
+                                Log.e("account.getKsuId()", account.getPassWord()+" << ");
                                 navName.setText(account.getName());
                                 navEmail.setText(account.getKsuId() + "@student.ksu.edu.sa");
                             }
@@ -460,7 +467,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     private boolean whatsappInstalledOrNot(String uri) {
         PackageManager pm = getPackageManager();
         boolean app_installed = false;
@@ -472,7 +478,6 @@ public class MainActivity extends AppCompatActivity
         }
         return app_installed;
     }
-
 
 
 }

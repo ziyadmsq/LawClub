@@ -107,7 +107,7 @@
                         android:id="@+id/locationTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="جامعة الملك سعود قاعة 23 المدرجات"
+                        android:text="جامعة الملك سعود قاعة حمد بن جاسر مبنى 23 المدرجات"
                         android:textAlignment="center" />
                 </LinearLayout>
 

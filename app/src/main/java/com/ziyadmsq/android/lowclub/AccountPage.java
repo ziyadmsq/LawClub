@@ -1,6 +1,7 @@
 package com.ziyadmsq.android.lowclub;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,15 +11,22 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -143,11 +151,7 @@ public class AccountPage extends AppCompatActivity implements MyJoinedEventsFrag
 
         if (MainActivity.account != null) {
             myPoints.setText(String.valueOf(MainActivity.account.getNumOfHours()));
-
         }
-
-        //>>
-
     }
 
     @Override
@@ -164,13 +168,46 @@ public class AccountPage extends AppCompatActivity implements MyJoinedEventsFrag
                 break;
 
             case R.id.email:
-                Intent intent1 = new Intent(Intent.ACTION_SENDTO);
-                intent1.setData(Uri.parse("mailto:")); // only email apps should handle this
-                intent1.putExtra(Intent.EXTRA_EMAIL, "email@LawClub.com");
-                intent1.putExtra(Intent.EXTRA_SUBJECT, "about LawClub app");
-                if (intent1.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent1);
-                }
+//                Intent intent1 = new Intent(Intent.ACTION_SENDTO);
+//                intent1.setData(Uri.parse("mailto:")); // only email apps should handle this
+//                intent1.putExtra(Intent.EXTRA_EMAIL, "email@LawClub.com");
+//                intent1.putExtra(Intent.EXTRA_SUBJECT, "about LawClub app");
+//                if (intent1.resolveActivity(getPackageManager()) != null) {
+//                    startActivity(intent1);
+//                }
+                final EditText editText = new EditText(this);
+                editText.setInputType(InputType.TYPE_CLASS_TEXT);
+                editText.setHint("name please");
+                AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(this);
+                alertDialog2.setTitle("Confirm Delete...");
+                alertDialog2.setMessage("Are you sure you want delete this file?");
+                LinearLayout container = new LinearLayout(this);
+                container.setOrientation(LinearLayout.VERTICAL);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                editText.setLayoutParams(lp);
+                container.setPadding(50, 0, 50, 0);
+                container.addView(editText, lp);
+                alertDialog2.setView(container);
+                alertDialog2.setPositiveButton("YES",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Write your code here to execute after dialog
+                                Toast.makeText(getApplicationContext(),
+                                        "You clicked on YES", Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+                        });
+                alertDialog2.setNegativeButton("NO",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Write your code here to execute after dialog
+                                Toast.makeText(getApplicationContext(),
+                                        "You clicked on NO", Toast.LENGTH_SHORT)
+                                        .show();
+                                dialog.cancel();
+                            }
+                        });
+                alertDialog2.show();
                 break;
 
             case R.id.phone:
@@ -186,7 +223,7 @@ public class AccountPage extends AppCompatActivity implements MyJoinedEventsFrag
                 break;
         }
 
-        DrawerLayout drawer =  findViewById(R.id.drawer_account);
+        DrawerLayout drawer = findViewById(R.id.drawer_account);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -204,6 +241,7 @@ public class AccountPage extends AppCompatActivity implements MyJoinedEventsFrag
         int id = item.getItemId();
 
         if (id == R.id.sign_out) {
+
             AuthUI.getInstance().signOut(this);
 
             FirebaseUser user = mFirebaseAuth.getCurrentUser();

@@ -102,7 +102,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
             public void onClick(final View view) {
                 //TODO : add him to the vol list in the firebase
                 Log.e("joinButton", "clickable");
-                mMessagesDatabaseReference.child(MainActivity.EVENT_TREE);
+//                mMessagesDatabaseReference.child(MainActivity.EVENT_TREE);
                 mMessagesDatabaseReference.keepSynced(true);
                 Map<String, Object> hashMap = new HashMap<>();
                 hashMap.putAll(event.getAtts());

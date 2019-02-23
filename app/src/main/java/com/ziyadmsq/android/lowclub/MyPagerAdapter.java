@@ -11,7 +11,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        switch (position){
+        switch (position) {
             case 0:
                 return new EventFragment();
             case 1:
@@ -28,13 +28,14 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position){
+        switch (position) {
             case 0:
                 return "Tab 1";
             case 1:
                 return "Tab 2";
 
-            default: return null;
+            default:
+                return null;
         }
     }
-    }
+}
