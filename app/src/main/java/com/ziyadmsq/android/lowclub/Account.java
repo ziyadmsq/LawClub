@@ -1,4 +1,5 @@
 package com.ziyadmsq.android.lowclub;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,42 +11,53 @@ public class Account {
     private String name;//
     private int numOfHours;
     private String phone;
-    private int ksuId;
+    private int KSUID;
     private String pass;//
-    private Map<String,Object> myEvents;
-    private Map<String,Object> myJoin;
+    private Map<String, Object> myEve;
+    private Map<String, Object> myJoin;
 
     public Account() {
-        //hey!
+//        this.permit = false;
+//                this.position = "&";
+//        this.accType = ac
+//        this.name = name;
+//        this.numOfHours =
+//                this.phone = phon
+//        this.ksuId = ksuI
+//        this.pass = passW
+//        this.myEvents = m
+//        this.myJoin = myJ
+//        this.firebaseID =
     }
-    public Account(String firebaseID,boolean permit, String position, String accType, String name, int numOfHours,
-                   String phone, int ksuId, String passWord, Map<String,Object> myEvents, Map<String,Object> myJoin) {
+
+    public Account(String firebaseID, boolean permit, String position, String accType, String name, int numOfHours,
+                   String phone, int KSUID, String pass, Map<String, Object> myEve, Map<String, Object> myJoin) {
         this.permit = permit;
         this.position = position;
         this.accType = accType;
         this.name = name;
         this.numOfHours = numOfHours;
         this.phone = phone;
-        this.ksuId = ksuId;
-        this.pass = passWord;
-        this.myEvents = myEvents;
+        this.KSUID = KSUID;
+        this.pass = pass;
+        this.myEve = myEve;
         this.myJoin = myJoin;
         this.firebaseID = firebaseID;
     }
 
-    public Map<String,Object> toMap(){
+    public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("accType", this.accType);
-        result.put("firebaseID", this.firebaseID);
-        result.put("phone", this.phone);
-        result.put("ksuId", this.ksuId);
-        result.put("name", this.name);
-        result.put("numOfHours", this.numOfHours);
-        result.put("passWord", this.pass);
-        result.put("permit", this.permit);
-        result.put("position", this.position);
-        result.put("myJoin",myJoin);
-        result.put("myEvents",myEvents);
+        result.put("accType", this.accType);//
+        result.put("firebaseID", this.firebaseID);//
+        result.put("phone", this.phone);//
+        result.put("KSUID", this.KSUID);
+        result.put("name", this.name);//
+        result.put("numOfHours", this.numOfHours);//
+        result.put("pass", this.pass);//
+        result.put("permit", this.permit);//
+        result.put("position", this.position);//
+        result.put("myJoin", myJoin);//
+        result.put("myEve", myEve);//
 
         return result;
     }
@@ -99,11 +111,11 @@ public class Account {
     }
 
     public int getKsuId() {
-        return ksuId;
+        return KSUID;
     }
 
     public void setKsuId(int ksuId) {
-        this.ksuId = ksuId;
+        this.KSUID = ksuId;
     }
 
     public String getPassWord() {
@@ -114,21 +126,22 @@ public class Account {
         this.pass = passWord;
     }
 
-    public Map<String,Object> getMyEvents() {
-        return myEvents;
+    public Map<String, Object> getMyEvents() {
+        return myEve;
     }
 
-    public void setMyEvents(Map<String,Object> myEvents) {
-        this.myEvents = myEvents;
+    public void setMyEvents(Map<String, Object> myEvents) {
+        this.myEve = myEvents;
     }
 
-    public Map<String,Object> getMyJoin() {
+    public Map<String, Object> getMyJoin() {
         return myJoin;
     }
 
-    public void setMyJoin(Map<String,Object> myJoin) {
+    public void setMyJoin(Map<String, Object> myJoin) {
         this.myJoin = myJoin;
     }
+
     public String getFirebaseID() {
         return firebaseID;
     }
