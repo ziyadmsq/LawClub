@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="7"
             android:ems="10"
+            android:focusableInTouchMode="true"
             android:inputType="textPersonName"
             android:textAlignment="viewEnd"
             android:hint="فلان بن علان"/>
@@ -48,6 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="7"
             android:ems="10"
+            android:focusableInTouchMode="true"
             android:inputType="phone"
             android:textAlignment="viewEnd"
             android:hint="0555555555"/>

@@ -9,13 +9,22 @@ android {
         applicationId "com.ziyadmsq.android.lowclub"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 4
-        versionName "2.2"
+        versionCode 6
+        versionName "2.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        release {
+            storeFile file("release.keystore")
+            storePassword "24680135"
+            keyAlias "ziyadmsq"
+            keyPassword "24680135"
+        }
     }
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

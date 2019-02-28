@@ -175,39 +175,6 @@ public class AccountPage extends AppCompatActivity implements MyJoinedEventsFrag
 //                if (intent1.resolveActivity(getPackageManager()) != null) {
 //                    startActivity(intent1);
 //                }
-                final EditText editText = new EditText(this);
-                editText.setInputType(InputType.TYPE_CLASS_TEXT);
-                editText.setHint("name please");
-                AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(this);
-                alertDialog2.setTitle("Confirm Delete...");
-                alertDialog2.setMessage("Are you sure you want delete this file?");
-                LinearLayout container = new LinearLayout(this);
-                container.setOrientation(LinearLayout.VERTICAL);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                editText.setLayoutParams(lp);
-                container.setPadding(50, 0, 50, 0);
-                container.addView(editText, lp);
-                alertDialog2.setView(container);
-                alertDialog2.setPositiveButton("YES",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Write your code here to execute after dialog
-                                Toast.makeText(getApplicationContext(),
-                                        "You clicked on YES", Toast.LENGTH_SHORT)
-                                        .show();
-                            }
-                        });
-                alertDialog2.setNegativeButton("NO",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Write your code here to execute after dialog
-                                Toast.makeText(getApplicationContext(),
-                                        "You clicked on NO", Toast.LENGTH_SHORT)
-                                        .show();
-                                dialog.cancel();
-                            }
-                        });
-                alertDialog2.show();
                 break;
 
             case R.id.phone:

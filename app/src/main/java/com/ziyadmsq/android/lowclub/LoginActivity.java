@@ -1,20 +1,30 @@
 package com.ziyadmsq.android.lowclub;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -95,9 +105,69 @@ public class LoginActivity extends AppCompatActivity {
 
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "كلم المشرف ويزبطك", Toast.LENGTH_LONG).show();
-//                startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+            public void onClick(final View v) {
+                final EditText userId = new EditText(context);
+                userId.setInputType(InputType.TYPE_CLASS_NUMBER);
+                userId.setHint("رقمك الجامعي");
+                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                alertDialog.setTitle("اعادة ارسالة كلمة المرور");
+                LinearLayout container = new LinearLayout(context);
+                container.setOrientation(LinearLayout.VERTICAL);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                userId.setLayoutParams(lp);
+                container.setPadding(50, 0, 50, 0);
+                container.addView(userId, lp);
+                alertDialog.setView(container);
+                alertDialog.setPositiveButton("أرسل", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                        final ProgressDialog progressDialog = new ProgressDialog(context);
+                        progressDialog.setMessage("جاري العمل .. ");
+                        progressDialog.setIcon(R.mipmap.ic_launcher);
+                        progressDialog.show();
+
+                        mAuth.sendPasswordResetEmail(userId.getText().toString()+"@student.ksu.edu.sa")
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            Snackbar mSnackbar = Snackbar.make(v , "شيك ايميلك الجامعي" , Snackbar.LENGTH_INDEFINITE);
+                                            View mView = mSnackbar.getView();
+                                            TextView mTextView = (TextView) mView.findViewById(android.support.design.R.id.snackbar_text);
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                                                mTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                            } else {
+                                                mTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+                                            }
+                                            mSnackbar.show();
+                                            progressDialog.dismiss();
+                                        }else{
+                                            progressDialog.dismiss();
+                                            Toast.makeText(getApplicationContext(),
+                                                    "الايميل ذا موب عندنا", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                progressDialog.dismiss();
+                                Toast.makeText(getApplicationContext(),
+                                        "الايميل ذا موب عندنا", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+                alertDialog.setNegativeButton("خلاص تذكرت",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Write your code here to execute after dialog
+
+                                dialog.cancel();
+                            }
+                        });
+                alertDialog.show();
+
             }
         });
 
@@ -128,12 +198,12 @@ public class LoginActivity extends AppCompatActivity {
                                 // If sign in fails, display a message to the user. If sign in succeeds
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
-                                progressBar.setVisibility(View.GONE);
                                 if (!task.isSuccessful()) {
                                     // there was an error
                                     if (password.length() < 6) {
                                         inputPassword.setError(getString(R.string.minimum_password));
                                     } else {
+                                        progressBar.setVisibility(View.VISIBLE);
                                         Toast.makeText(LoginActivity.this, "اما موب مسجل ك عضو او كلمة المرور فيه مشكلة", Toast.LENGTH_LONG).show();
                                     }
                                 } else {
@@ -147,9 +217,8 @@ public class LoginActivity extends AppCompatActivity {
                                                 if (dataSnapshot1.getValue(Account.class) != null && auth.getCurrentUser().getUid() != null) {
                                                     if (dataSnapshot1.getValue(Account.class).getFirebaseID().equals(auth.getCurrentUser().getUid())) {
                                                         MainActivity.account = dataSnapshot1.getValue(Account.class);
-//                                                        MainActivity.account.setName(name);
-//                                                        mFirebaseDatabase.getReference().child(MainActivity.ACCOUNT_TREE).child(auth.getCurrentUser().getUid()).child("name").setValue(name);
-//                                                        mFirebaseDatabase.setPersistenceEnabled(true);
+                                                        MainActivity.account.setPassWord(password);
+                                                        mMessagesDatabaseReference.child(MainActivity.account.getFirebaseID()).setValue(MainActivity.account.toMap());
                                                         Log.e(".onDataChange","");
                                                         break;
                                                     }
@@ -161,7 +230,9 @@ public class LoginActivity extends AppCompatActivity {
                                                 MainActivity.account = new Account(currentUser.getUid(), true, "$", "user", "", 0, "", Integer.parseInt(email), password, null, null);
 //                                                MainActivity.account = account;
                                                 mFirebaseDatabase.getReference().child(MainActivity.ACCOUNT_TREE).child(currentUser.getUid()).setValue(MainActivity.account.toMap());
+
                                             }
+                                            progressBar.setVisibility(View.GONE);
                                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                             startActivity(intent);
                                             finish();
@@ -169,19 +240,11 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                                            progressBar.setVisibility(View.GONE);
                                         }
                                     });
+                                    progressBar.setVisibility(View.GONE);
 
-//                                    if (MainActivity.account == null) {
-//                                        Log.e(".account == null","");
-//                                        FirebaseUser currentUser = auth.getCurrentUser();
-//                                        Account account = new Account(currentUser.getUid(), true, "$", "user", "", 0, "", Integer.parseInt(email), password, null, null);
-//                                        mFirebaseDatabase.getReference().child(MainActivity.ACCOUNT_TREE).child(currentUser.getUid()).setValue(account.toMap());
-//                                    }
-//                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                                    startActivity(intent);
-//                                    finish();
                                 }
                             }
                         });
